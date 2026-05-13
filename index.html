@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I love you Shibii</title>
+    <style>
+        /* --- CSS STYLING --- */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600&display=swap');
+
+        /* Love-Themed Palette */
+        :root {
+            --love-cream: #fff9f9;
+            --love-pink-soft: #fce4ec;
+            --love-pink-bright: #f06292;
+            --love-pink-deep: #e91e63;
+            --love-red-bright: #c62828;
+            --love-red-deep: #8e0000;
+            --text-dark: #4a148c;
+            --gold-accent: #fbc02d;
+        }
+
+        body {
+            margin: 0; padding: 0;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh;
+            background-color: var(--love-cream);
+            font-family: 'Fredoka', sans-serif;
+            overflow-y: auto; 
+            overflow-x: hidden; 
+        }
+
+        /* Screen Container */
+        .screen {
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            position: relative;
+            max-width: 400px;
+            width: 90%;
+            margin: 20px;
+        }
+
+        /* When active, show it and play the pop animation */
+        .screen.active {
+            display: flex;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        h1 { color: var(--love-pink-deep); margin-bottom: 20px; font-size: 2.2rem; }
+        p { color: var(--text-dark); margin-bottom: 20px; }
+
+        /* Images */
+        .image-container img {
+            width: 250px; height: 250px; object-fit: cover;
+            border-radius: 20px; box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            transition: transform 0.4s ease;
+            transform: rotateY(-10deg) rotateX(10deg);
+            margin-bottom: 25px;
+        }
+        .image-container img:hover { transform: rotateY(0deg) rotateX(0deg) scale(1.05); }
+
+        /* Buttons */
+        .btn-3d {
+            background-color: var(--love-pink-deep); color: white;
+            border: none; padding: 15px 40px; border-radius: 55px;
+            font-size: 1.2rem; font-weight: 600; text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 10px 0 var(--love-pink-bright), 0 18px 25px rgba(0,0,0,0.2);
+            transition: all 0.1s ease;
+            display: flex; align-items: center; gap: 8px; justify-content: center;
+            margin-top: 15px;
+        }
+        .btn-3d:active { transform: translateY(10px); box-shadow: 0 0px 0 var(--love-pink-bright), 0 8px 12px rgba(0,0,0,0.2); }
+
+        .btn-no { background-color: var(--love-red-bright); box-shadow: 0 10px 0 var(--love-red-deep), 0 18px 25px rgba(0,0,0,0.2); }
+        .btn-no:active { box-shadow: 0 0px 0 var(--love-red-deep), 0 8px 12px rgba(0,0,0,0.2); }
+
+        .btn-restart { background:#888; box-shadow: 0 6px 0 #555; }
+        .btn-restart:active { box-shadow: 0 0px 0 #555; }
+
+        /* Video Screen */
+        /* Video Screen */
+#screen-video {
+    width: 100vw; height: 100vh;
+    background: radial-gradient(circle at center, #311b92, #0d0421);
+    color: white; justify-content: center; align-items: center;
+    padding: 0; border-radius: 0; box-shadow: none; margin: 0;
+    max-width: 100%;
+}
+#screen-video video { 
+    max-height: 75vh; /* Increased from 50vh to 75vh (takes up 75% of screen height) */
+    width: 95%;       /* Increased to span wider on mobile */
+    max-width: 900px; /* Increased from 600px to 900px for larger monitors */
+    border-radius: 15px; 
+    background: black; 
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4); /* Added a nice shadow to make it pop! */
+}
+
+        /* Animations & Effects */
+        .shake { animation: shakeAnim 0.4s; }
+        @keyframes shakeAnim {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .pulse { animation: pulseAnim 2s infinite; }
+        @keyframes pulseAnim {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .flower-decorative {
+            position: absolute; width: 100px; height: 100px;
+            border-radius: 50%; border: 5px dashed var(--gold-accent);
+            opacity: 0.3; filter: blur(2px); pointer-events: none;
+        }
+
+        .particle-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -1;
+        }
+        .particle {
+            position: absolute; font-size: 1.5rem; color: rgba(240, 98, 146, 0.4);
+            animation: particleAnim 5s infinite;
+        }
+        @keyframes particleAnim {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.4; }
+            50% { transform: translate(calc(100vw * (random() - 0.5)), calc(100vh * (random() - 0.5))) scale(0.5) rotate(calc(360deg * random())); opacity: 0.1; }
+        }
+
+        .inline-heart {
+            display: inline-block; width: 10px; height: 10px;
+            background-color: var(--love-red-bright); transform: rotate(-45deg);
+            margin: 0 3px;
+        }
+        .inline-heart:before, .inline-heart:after {
+            content: ""; position: absolute; width: 10px; height: 10px; background-color: inherit; border-radius: 50%;
+        }
+        .inline-heart:before { top: -5px; left: 0; }
+        .inline-heart:after { left: 5px; top: 0; }
+    </style>
+</head>
+<body>
+
+    <div class="particle-container">
+        <span class="particle" style="left:10%; top:20%">💖</span><span class="particle" style="left:30%; top:60%">⭐️</span><span class="particle" style="left:50%; top:40%">🌸</span><span class="particle" style="left:70%; top:80%">🌼</span><span class="particle" style="left:90%; top:10%">💝</span>
+        <span class="particle" style="left:5%; top:50%">✨</span><span class="particle" style="left:25%; top:10%">🌺</span><span class="particle" style="left:45%; top:70%">💛</span><span class="particle" style="left:65%; top:30%">🌟</span><span class="particle" style="left:85%; top:90%">💗</span>
+    </div>
+
+    <div id="screen-main" class="screen active">
+        <div class="flower-decorative" style="top:-20px; left:-20px"></div><div class="flower-decorative" style="bottom:-20px; right:-20px"></div>
+        <h1>Tumhare liye ek chhota sa gift</h1>
+        <div class="image-container"><img src="request-image.gif" alt="Gift Request"></div>
+        <p>Ye sirf tumhare lye banaya <br/> to let you know how important are you mere liyeeee</p>
+        <div style="display:flex; gap:15px; margin-top:20px; justify-content: center; flex-wrap: wrap;">
+            <button class="btn-3d" onclick="switchScreen('screen-yes')">YESSSSHHH <span class="inline-heart" style="background-color: white"></span></button>
+            <button class="btn-3d btn-no" onclick="switchScreen('screen-no')">NAHI CHAHIYE MUJHE...</button>
+        </div>
+    </div>
+
+    <div id="screen-no" class="screen">
+        <div class="flower-decorative" style="top:-10px; right:-10px; border-color:#ccc; opacity:0.1;"></div>
+        <h1 style="color: #555;">Sochiii bhi kaise Tum<span class="inline-heart"></span></h1>
+        <div class="image-container"><img src="broken-heart.gif" alt="Broken Heart" style="opacity: 0.8; box-shadow: 0 8px 15px rgba(0,0,0,0.1);"></div>
+        <p style="color: #666;">Udaas hogayaa mainnn🥲🥲🥲 <br/> My heart is broken! Ab wapas accept karo tab hi maanunga <span class="inline-heart"></span> Please reconsider!</p>
+        <button class="btn-3d" onclick="switchScreen('screen-main')">Karti hu accept😁😁 <span class="inline-heart" style="background-color: white"></span></button>
+    </div>
+
+    <div id="screen-yes" class="screen">
+        <div class="flower-decorative" style="top:-10px; left:-10px; border-style:solid; opacity:0.5;"></div><div class="flower-decorative" style="bottom:-10px; right:-10px; border-style:solid; opacity:0.5;"></div>
+        <h1 class="pulse">Bherryy Goodgirllllll hehehhehehee!! I loveeee youuuu Shibii <span class="inline-heart"></span></h1>
+        <div class="image-container"><img src="yes-image.gif" alt="Joyful Moment"></div>
+        <p>Yeeeehhhhhhhh! Tumneee Accept karliaa! <br/> ! <span class="inline-heart"></span> Ab hogaaa special reveal...</p>
+        <button class="btn-3d" onclick="switchScreen('screen-password')">NEXT <span class="inline-heart" style="background-color: white"></span></button>
+    </div>
+
+    <div id="screen-password" class="screen" style="padding-bottom: 20px">
+        <div class="flower-decorative" style="top:-15px; left:-15px; opacity:0.2;"></div><div class="flower-decorative" style="bottom:-15px; right:-15px; opacity:0.2;"></div>
+        <h1 style="font-size: 1.8rem; color:var(--text-dark);">ENTER PASSCODE</h1>
+        
+        <div id="display-container" style="display: flex; gap: 8px; margin-bottom: 15px; justify-content: center;">
+            <div class="dot" style="width: 12px; height: 12px; border-radius: 50%; background: #ddd; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); transition: background 0.2s;"></div><div class="dot" style="width: 12px; height: 12px; border-radius: 50%; background: #ddd; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); transition: background 0.2s;"></div><div class="dot" style="width: 12px; height: 12px; border-radius: 50%; background: #ddd; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); transition: background 0.2s;"></div><div class="dot" style="width: 12px; height: 12px; border-radius: 50%; background: #ddd; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); transition: background 0.2s;"></div>
+            <div class="dot" style="width: 12px; height: 12px; border-radius: 50%; background: #ddd; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); transition: background 0.2s;"></div><div class="dot" style="width: 12px; height: 12px; border-radius: 50%; background: #ddd; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); transition: background 0.2s;"></div><div class="dot" style="width: 12px; height: 12px; border-radius: 50%; background: #ddd; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); transition: background 0.2s;"></div><div class="dot" style="width: 12px; height: 12px; border-radius: 50%; background: #ddd; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); transition: background 0.2s;"></div>
+        </div>
+        
+        <p style="color: #888; font-size: 0.9rem; margin-bottom: 20px;">Hint:Mera phone ka password</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; justify-items: center;">
+            <div class="key" style="width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--text-dark); cursor: pointer; box-shadow: 0 4px 0 #ddd, 0 6px 12px rgba(0,0,0,0.1); transition: all 0.1s;" onclick="pressKey('1')">1</div><div class="key" style="width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--text-dark); cursor: pointer; box-shadow: 0 4px 0 #ddd, 0 6px 12px rgba(0,0,0,0.1); transition: all 0.1s;" onclick="pressKey('2')">2</div><div class="key" style="width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--text-dark); cursor: pointer; box-shadow: 0 4px 0 #ddd, 0 6px 12px rgba(0,0,0,0.1); transition: all 0.1s;" onclick="pressKey('3')">3</div>
+            <div class="key" style="width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--text-dark); cursor: pointer; box-shadow: 0 4px 0 #ddd, 0 6px 12px rgba(0,0,0,0.1); transition: all 0.1s;" onclick="pressKey('4')">4</div><div class="key" style="width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--text-dark); cursor: pointer; box-shadow: 0 4px 0 #ddd, 0 6px 12px rgba(0,0,0,0.1); transition: all 0.1s;" onclick="pressKey('5')">5</div><div class="key" style="width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--text-dark); cursor: pointer; box-shadow: 0 4px 0 #ddd, 0 6px 12px rgba(0,0,0,0.1); transition: all 0.1s;" onclick="pressKey('6')">6</div>
+            <div class="key" style="width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--text-dark); cursor: pointer; box-shadow: 0 4px 0 #ddd, 0 6px 12px rgba(0,0,0,0.1); transition: all 0.1s;" onclick="pressKey('7')">7</div><div class="key" style="width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--text-dark); cursor: pointer; box-shadow: 0 4px 0 #ddd, 0 6px 12px rgba(0,0,0,0.1); transition: all 0.1s;" onclick="pressKey('8')">8</div><div class="key" style="width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--text-dark); cursor: pointer; box-shadow: 0 4px 0 #ddd, 0 6px 12px rgba(0,0,0,0.1); transition: all 0.1s;" onclick="pressKey('9')">9</div>
+            <div style="visibility:hidden"></div><div class="key" style="width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--text-dark); cursor: pointer; box-shadow: 0 4px 0 #ddd, 0 6px 12px rgba(0,0,0,0.1); transition: all 0.1s;" onclick="pressKey('0')">0</div><div class="key" style="width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--text-dark); cursor: pointer; box-shadow: 0 4px 0 #ddd, 0 6px 12px rgba(0,0,0,0.1); transition: all 0.1s;" onclick="clearPass()">C</div>
+        </div>
+    </div>
+
+    <div id="screen-video" class="screen">
+        <video id="my-video">
+            <source src="Main tera.mp4" type="video/mp4">
+        </video>
+        <div style="display:flex; flex-wrap: wrap; justify-content: center; gap:10px; margin-top:20px;">
+            <button class="btn-3d" onclick="document.getElementById('my-video').play()">PLAY</button>
+            <button class="btn-3d" onclick="document.getElementById('my-video').pause()">PAUSE</button>
+        </div>
+        <button class="btn-3d btn-restart" onclick="restartApp()">Restart <span class="inline-heart" style="background-color: white"></span></button>
+    </div>
+
+    <script>
+        const CORRECT_PASS = "14082006";
+        let currentInput = "";
+        const videoElement = document.getElementById("my-video");
+
+        // Simple, bulletproof screen switching
+        function switchScreen(targetScreenId) {
+            // Hide all screens
+            const allScreens = document.querySelectorAll('.screen');
+            allScreens.forEach(screen => {
+                screen.classList.remove('active');
+            });
+
+            // Show target screen
+            const targetScreen = document.getElementById(targetScreenId);
+            if (targetScreen) {
+                targetScreen.classList.add('active');
+            }
+        }
+
+        // Restart App Logic
+        function restartApp() {
+            if (videoElement) {
+                videoElement.pause();
+                videoElement.currentTime = 0; 
+            }
+            clearPass(); // Also clear the password!
+            switchScreen('screen-main');
+        }
+
+        // Password Logic
+        function pressKey(num) {
+            if (currentInput.length < 8) {
+                currentInput += num;
+                updateDots();
+                
+                if (currentInput.length === 8) {
+                    setTimeout(checkPassword, 300);
+                }
+            }
+        }
+
+        function updateDots() {
+            const dots = document.querySelectorAll('#screen-password .dot');
+            dots.forEach((dot, index) => {
+                if (index < currentInput.length) {
+                    dot.style.background = '#e91e63'; 
+                    dot.style.boxShadow = '0 0 10px #f06292'; 
+                } else {
+                    dot.style.background = '#ddd';
+                    dot.style.boxShadow = 'inset 0 1px 2px rgba(0,0,0,0.1)';
+                }
+            });
+        }
+
+        function checkPassword() {
+            if (currentInput === CORRECT_PASS) {
+                switchScreen('screen-video');
+            } else {
+                const screen = document.getElementById('screen-password');
+                screen.classList.add('shake');
+                setTimeout(() => {
+                    screen.classList.remove('shake');
+                    clearPass();
+                }, 400);
+            }
+        }
+
+        function clearPass() {
+            currentInput = "";
+            updateDots();
+        }
+    </script>
+</body>
+</html>
